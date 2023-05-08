@@ -1,0 +1,64 @@
+﻿@model IEnumerable<GYM.Models.SearchRemainClass>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchRemainClass</title>
+</head>
+<body>
+<p>
+        <a asp-controller="Home" asp-action="Index">回首頁</a>
+</p>
+    <font color="red"><h1>查學員剩下可用課程堂數</h1></font>
+    <font color="green">
+        <h3>
+            用下面抓SQL的:
+            var query = "SELECT m.member_name, l.lesson_name, z.RemainingClass \r\nFROM(SELECT X.member_id,X.lesson_id,　FLOOR(X.NumUsage-W.classCount) RemainingClass\r\nFROM(SELECT s.member_id, s.lesson_id, COUNT(*) AS classCount\r\nFROM(SELECT a.member_id, a.lesson_id, a.classDate, t.lastPayDay \r\nFROM classRecord AS a LEFT JOIN(SELECT member_id, lesson_id, MAX(paymentDate) AS lastPayDay \r\nFROM payment GROUP BY member_id, lesson_id) AS t \r\nON (a.lesson_id = t.lesson_id) AND (a.member_id = t.member_id) \r\nWHERE a.classDate >= t.lastPayDay) AS s GROUP BY s.member_id, s.lesson_id) AS W JOIN\r\n(SELECT P.lesson_id,P.member_id,P.paymentAmount,L.unit_price Price, P.paymentAmount/L.unit_price NumUsage\r\nFROM payment P JOIN lesson L ON P.lesson_id=L.lesson_id\r\nGROUP BY P.lesson_id,P.member_id,P.paymentAmount,P.paymentDate,L.unit_price\r\nHAVING　P.paymentDate = MAX(P.paymentDate)) AS X \r\nON W.lesson_id=X.lesson_id AND W.member_id=X.member_id) AS z \r\nJOIN member m ON m.member_id = z.member_id\r\nJOIN lesson l ON l.lesson_id = z.lesson_id";
+            var remain = _db.SearchRemainClasses.FromSqlRaw(query).ToList();
+            return View(remain);
+        </h3>
+    </font>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.member_name)
+                <font color="red"><h5>學員名</h5></font>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lesson_name)
+                <font color="red"><h5>課程名</h5></font>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RemainingClass)
+                    <font color="red"><h5>剩下可用課程堂數</h5></font>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.member_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lesson_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RemainingClass)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

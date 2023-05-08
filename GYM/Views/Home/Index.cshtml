@@ -1,0 +1,59 @@
+﻿@*@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;*@
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Hello @HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value!</h1>
+                <p>Username: @HttpContextAccessor.HttpContext.User.Identity.Name</p>
+            </div>
+        </div>
+    }*@
+
+<h1>健身房資訊系統(本畫面無需登錄皆可看到)</h1>
+<br />
+<h5>根據使用者登錄權限有以下功能:</h5>
+<br />
+<h6>①管理員(教練)權限→新增學員上課紀錄/新增學員繳費紀錄/學員身分變更/查看本月收現/查看本月營收/查看學員剩餘堂數/查看全員上課紀錄</h6>
+<br />
+<h6>②目前有效學員權限→查看本月收現/查看本月營收/查看學員剩餘堂數/查看全員上課紀錄</h6>
+<br />
+<h6>③過往所有學員權限→查看全員上課紀錄</h6>
+<br />
+<h6>======================================================</h6>
+***<a href="/Test/Login">登入</a>***
+<br />
+***<a href="/Test/Logout">登出</a>***
+<br />
+<h6>======================================================</h6>
+<br />
+<a href="/Test/SearchCashInMonth">查看本月收現 -- 管理員（Admin權限1）</a>
+<br />
+<br />
+<a href="/Test/SearchRevenueInMonth">查看本月營收 -- 管理員（Admin權限1）</a>
+<br />
+<br />
+<a href="/Test/SearchRemainClass">查看學員剩餘堂數 -- 目前有效學員（active students權限12）</a>
+<br />
+<br />
+<a href="/Test/Classlist">查看全員上課紀錄 -- 過往所有學員（all students權限123）</a>
+<br />
+<h6>======================================================</h6>
+<br />
+<a href="/Test/AddClassRecord">新增學員上課紀錄 -- 管理員（Admin權限1）</a>
+<br />
+<br />
+<a href="/Test/AddPayment">新增學員繳費紀錄 -- 管理員（Admin權限1）</a>
+<br />
+<br />
+<a href="/Test/MemberRankUpdate">學員身分變更 -- 管理員（Admin權限1）</a>
+<br />
+
+<br />
+
+

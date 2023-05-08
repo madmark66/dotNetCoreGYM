@@ -1,0 +1,60 @@
+﻿@model IEnumerable<GYM.Models.ClassRecord>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Classlist</title>
+</head>
+<body>
+<p>
+    <a asp-controller="Home" asp-action="Index">回首頁</a>
+</p>
+    <font color="red"><h1>查所有學員上課紀錄</h1></font>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.MemberId)
+                    <font color="red"><h5>學員名</h5></font>
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.LessonId)
+                    <font color="red"><h5>課程</h5></font>
+            </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ClassDate)
+                    <font color="red"><h5>上課日</h5></font>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.Member.MemberName)
+            </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lesson.LessonName)
+                    </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassDate)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

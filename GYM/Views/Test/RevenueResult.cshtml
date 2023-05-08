@@ -1,0 +1,50 @@
+﻿@model IEnumerable<GYM.Models.SearchRevenueInMonth>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RevenueResult</title>
+</head>
+<body>
+
+    <font color="red"><h1>期間營收金額</h1></font>
+    <font color="green">
+        <h3>
+            用下面抓SQL的:
+            SqlParameter _fromDate = new SqlParameter("@@FDate", FromDate);
+            SqlParameter _toDate = new SqlParameter("@@TDate", ToDate);
+            var revenue = _db.SearchRevenueInMonths.FromSqlRaw("SELECT sum(unit_price) AS revenue FROM lesson L RIGHT JOIN classRecord C ON L.lesson_id = C.lesson_id WHERE C.classDate BETWEEN @@FDate AND @@TDate", _fromDate, _toDate).ToList();
+        </h3>
+    </font>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+<br />
+@ViewBag.p5
+            <br />
+            @ViewBag.p6
+
+@foreach (var item in Model) {
+        <tr>
+            <td>
+               <font color="red"><h1>@Html.DisplayFor(modelItem => item.revenue)</h1></font>
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>

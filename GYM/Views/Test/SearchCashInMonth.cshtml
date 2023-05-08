@@ -1,0 +1,47 @@
+﻿@model IEnumerable<GYM.Models.SearchCashInMonth>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SearchCashInMonth</title>
+</head>
+<body>
+<p>
+        <a asp-controller="Home" asp-action="Index">回首頁</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                
+                <font color="red"><h1>本月份目前收現金額</h1></font>
+                    <font color="green">
+                        <h3>
+                            用下面抓SQL的:
+                            var query = "SELECT SUM(paymentAmount) AS total FROM payment WHERE MONTH(payment.paymentDate) =  Month(Getdate()) AND YEAR(payment.paymentDate) = YEAR(Getdate())";
+                            var cash = _db.SearchCashInMonths.FromSqlRaw(query).ToList();
+                        </h3>
+                    </font>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+              <font color="red"><h1>@Html.DisplayFor(modelItem => item.total)</h1></font>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
